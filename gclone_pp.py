@@ -27,7 +27,7 @@ down_nzb_name = os.environ.get('NZBPP_NZBNAME')
 # Post processed NZB upload directory:
 upload_dir = os.environ.get('UPLOAD_DIR')
 # Gives downloaded file directory without the trailing '/':
-nzb_down_dir = os.environ.get('NZBPP_DIRECTORY')
+nzb_down_dir = '/home/nzbget/maindir/completed/'
 # Checks download status:
 status = os.environ.get('NZBPP_TOTALSTATUS')
 # Uses rclone listremote to list availabe remotes and chooses the first one:
@@ -59,24 +59,24 @@ def gclone(command):
                     f'"{remote_name}" sucessfully!')
                 break
 
-nzb_upload_dir = f"{remote_name}/{upload_dir}/{down_nzb_name}"
+nzb_upload_dir = f"{remote_name}/{upload_dir}"
 
 if status == 'SUCCESS':
     server.writelog(
         'INFO', f'Commencing upload of "{down_nzb_name}" to "{remote_name}"')
     gclone(
         f'gclone move "{nzb_down_dir}" "{nzb_upload_dir}" ' + \
-        '-v --stats=1s --stats-one-line')
+        '-v --stats=2s --exclude _unpack/** --exclude *.rar --exclude *.txt --delete-empty-src-dirs --drive-chunk-size=64M --fast-list --transfers=20 --stats-one-line')
     sys.exit(93)
 
 elif status == 'WARNING':
     server.writelog(
-    	'WARNING', f'Upload of "{down_nzb_name}" is cancelled. Running ' + \
-    	'post-proc again to possibly fix damages.')
+     'WARNING', f'Upload of "{down_nzb_name}" is cancelled. Running ' + \
+     'post-proc again to possibly fix damages.')
     sys.exit(93)
 
 elif status in ['FAILURE', 'DELETED']:
     server.writelog(
-    	'ERROR', f'Upload of "{down_nzb_name}" is cancelled ' + \
+     'ERROR', f'Upload of "{down_nzb_name}" is cancelled ' + \
        f'due to the file status being: {status}')
     sys.exit(94)
