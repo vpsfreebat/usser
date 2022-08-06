@@ -36,7 +36,6 @@ COPY start /home/
 COPY gclone_pp.py /home/nzbget/scripts/
 COPY ping.py /home/
 COPY accounts/* /home/accounts/
-COPY Notify.py /home/nzbget/scripts/
 RUN git clone https://github.com/nzbget/VideoSort.git /home/nzbget/scripts/Videosort
 
 # Run NZBGET:
