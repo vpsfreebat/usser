@@ -9,7 +9,6 @@ echo 'rclone config loaded' || { echo 'ERROR: unable to get rclone config' ; exi
 # Rewrites certain options in nzbget.conf:
 
 home='\/home\/nzbget\/maindir\/'
-extensions='gclone_pp.py'
 formauth='yes'
 
 sed -i \
@@ -17,7 +16,6 @@ sed -i \
     -e 's/\(ControlUsername=\).*/\1'$CTRL_USERNAME'/' \
     -e 's/\(ControlPassword=\).*/\1'$CTRL_PASS'/' \
     -e 's/\(MainDir=\).*/\1'$home'/' \
-    -e 's/\(Extensions=\).*/\1'$extensions'/' \
     -e 's/\(FormAuth=\).*/\1'$formauth'/' \
     /home/nzbget/nzbget.conf
 
